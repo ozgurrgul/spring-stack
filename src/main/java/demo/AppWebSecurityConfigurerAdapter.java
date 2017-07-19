@@ -22,6 +22,7 @@ public class AppWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.addFilterAfter(getTokenAuthFilter(), BasicAuthenticationFilter.class);
         http.csrf().disable();
         http.cors().disable();

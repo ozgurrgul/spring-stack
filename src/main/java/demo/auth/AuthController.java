@@ -33,7 +33,7 @@ public class AuthController {
         User tmpUser = userRepository.getByEmailAndPassword(authLoginModel.email, authLoginModel.password);
 
         if(tmpUser == null) {
-            throw new BadRequestException("Wrong email or password or year");
+            throw new BadRequestException("Wrong email or password");
         }
 
         String tokenValue = TokenUtils.randomTokenValue();
