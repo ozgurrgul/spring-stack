@@ -28,30 +28,31 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String tokenString = request.getHeader("token");
 
         if(tokenString == null) {
-            // user is not authenticated
-            chain.doFilter(request, response);
+            continueChain(request, response, chain); // user is not authenticated here
             return;
         }
 
         Token token = tokenRepository.findTokenByTokenValue(tokenString);
 
         if(token == null) {
-
-            chain.doFilter(request, response);
+            continueChain(request, response, chain); // user is not authenticated still
             return;
-
         }
 
         User user = token.getUser();
 
-        if(user != null) {
-            Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-
-            // set authentication
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            System.out.println("=====doFilterInternal()==== authenticated user");
+        if(user == null) {
+            continueChain(request, response, chain); // user is not authenticated ...
+            return;
         }
 
+        // auth user system wide
+        Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        continueChain(request, response, chain);
+    }
+
+    private void continueChain(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         chain.doFilter(request, response);
     }
 
