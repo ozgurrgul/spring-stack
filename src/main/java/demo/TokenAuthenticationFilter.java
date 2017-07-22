@@ -50,6 +50,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
         continueChain(request, response, chain);
+
     }
 
     private void continueChain(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {

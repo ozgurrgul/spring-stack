@@ -11,7 +11,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "user/list", method = RequestMethod.GET)
     public Iterable<User> list() {
         return userRepository.findAll();
