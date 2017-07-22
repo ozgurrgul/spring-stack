@@ -1,13 +1,10 @@
 package demo.user;
 
-import demo.role.Role;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,11 +17,8 @@ public class User implements UserDetails {
     public Long id;
 
     @Column(unique=true)
-    @NotNull
     public String email;
 
-    @NotNull
-    @Length(min = 8, max = 50)
     public String password;
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)

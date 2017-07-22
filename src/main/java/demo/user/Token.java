@@ -1,4 +1,4 @@
-package demo.token;
+package demo.user;
 
 import demo.user.User;
 

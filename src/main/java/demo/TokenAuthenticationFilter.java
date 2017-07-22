@@ -1,7 +1,7 @@
 package demo;
 
-import demo.token.Token;
-import demo.token.TokenRepository;
+import demo.user.Token;
+import demo.user.TokenRepository;
 import demo.user.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

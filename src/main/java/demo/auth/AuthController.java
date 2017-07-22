@@ -1,13 +1,16 @@
 package demo.auth;
 
-import demo.common.BadRequestException;
-import demo.token.Token;
-import demo.token.TokenRepository;
+import demo.BadRequestException;
+import demo.user.Token;
+import demo.user.TokenRepository;
 import demo.user.User;
 import demo.user.UserRepository;
+import demo.utils.ControllerUtils;
 import demo.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 /**
  * Created by ozgur on 7/8/17.
@@ -22,13 +25,12 @@ public class AuthController {
     @Autowired
     TokenRepository tokenRepository;
 
-    public AuthController(UserRepository userRepository, TokenRepository tokenRepository) {
-        this.userRepository = userRepository;
-        this.tokenRepository = tokenRepository;
-    }
-
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public AuthResponse login(@RequestBody AuthLoginModel authLoginModel) {
+    public AuthResponse login(@Valid @RequestBody AuthLoginModel authLoginModel, Errors errors) {
+
+        if (errors.hasErrors()) {
+            throw new BadRequestException(ControllerUtils.getFormErrors(errors));
+        }
 
         User tmpUser = userRepository.getByEmailAndPassword(authLoginModel.email, authLoginModel.password);
 
@@ -47,38 +49,33 @@ public class AuthController {
     }
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public AuthResponse register(@RequestBody AuthRegisterModel authRegisterModel) {
+    public AuthResponse register(@Valid @RequestBody AuthRegisterModel authRegisterModel, Errors errors) {
 
-        System.out.println(authRegisterModel.email);
-        System.out.println(authRegisterModel.password);
+        if (errors.hasErrors()) {
+            throw new BadRequestException(ControllerUtils.getFormErrors(errors));
+        }
 
-        User user = userRepository.getByEmail(authRegisterModel.email);
-
-        if(user != null) {
-            throw new BadRequestException("Email already exists in database");
+        if(isEmailExists(authRegisterModel)) {
+            throw new BadRequestException("E-mail exists in database");
         }
 
         User tmpUser = new User(authRegisterModel.email, authRegisterModel.password);
 
         // persist user
-        try {
-            userRepository.save(tmpUser);
-        } catch (Exception e) {
-            throw e;
-        }
+        userRepository.save(tmpUser);
 
         String tokenValue = TokenUtils.randomTokenValue();
         Token token = new Token(tokenValue);
         token.setUser(tmpUser);
 
         // persist token
-        try {
-            tokenRepository.save(token);
-        } catch (Exception e) {
-            throw e;
-        }
+        tokenRepository.save(token);
 
         return new AuthResponse(tokenValue);
+    }
+
+    private boolean isEmailExists(AuthRegisterModel authRegisterModel) {
+        return userRepository.getByEmail(authRegisterModel.email) != null;
     }
 
 }

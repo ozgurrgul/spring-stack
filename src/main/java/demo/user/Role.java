@@ -1,4 +1,4 @@
-package demo.role;
+package demo.user;
 
 import javax.persistence.*;
 
@@ -10,7 +10,7 @@ public class Role {
     public Long id;
 
     @Column(unique=true)
-    public String roleName; // admin | jury_sectoral | jury_academic | sectoral | academician | folk
+    public String roleName; // ADMIN | USER | ...
 
     protected Role() {}
 

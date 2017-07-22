@@ -1,6 +1,6 @@
 package demo;
 
-import demo.token.TokenRepository;
+import demo.user.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -34,6 +34,5 @@ public class AppWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapte
     private Filter getTokenAuthFilter() {
         return new TokenAuthenticationFilter(tokenRepository);
     }
-
 
 }

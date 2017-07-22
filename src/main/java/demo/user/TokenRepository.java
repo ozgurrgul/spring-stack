@@ -1,4 +1,4 @@
-package demo.token;
+package demo.user;
 
 /**
  * Created by ozgur on 7/5/17.
@@ -7,7 +7,5 @@ package demo.token;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TokenRepository extends CrudRepository<Token, Long> {
-
     Token findTokenByTokenValue(String tokenValue);
-
 }
