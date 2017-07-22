@@ -1,7 +1,5 @@
 package demo.user;
 
-import demo.user.User;
-
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +11,7 @@ public class Token {
     public String tokenValue;
 
     @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(foreignKey = @ForeignKey(name = "FK_USER"))
     private User user;
 
     protected Token() {
