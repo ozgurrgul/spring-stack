@@ -3,11 +3,12 @@ package demo.user;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class User implements UserDetails {
@@ -33,14 +34,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-        for(Role role : getRoles()) {
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.roleName);
-            authorities.add(grantedAuthority);
-        }
-
-        return authorities;
+        return getRoles()
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.roleName))
+                .collect(Collectors.toList());
     }
 
     @Override
