@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 /**
  * Created by ozgur on 7/8/17.
  */
-public class AuthLoginModel {
+public class AuthLoginDTO {
 
     @NotBlank(message = "E-mail can't be empty")
     @Pattern(regexp = ".+@.+\\.[a-z]+", message = "Must be valid e-mail")
