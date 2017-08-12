@@ -3,6 +3,7 @@ package demo;
 import demo.domain.Token;
 import demo.repository.TokenRepository;
 import demo.domain.User;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +26,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
-        String tokenString = request.getHeader("token");
+        String tokenString = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if(tokenString == null) {
             continueChain(request, response, chain); // user is not authenticated here
