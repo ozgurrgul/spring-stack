@@ -10,3 +10,9 @@ Uses `Token` class to create token and `User` class to create new user. Also rol
 Then you can test `/user/list` route which protected with 'ADMIN' role.
 
 `Lombok` utilized for entity classes.
+
+# Domains
+* `User`: To store users
+* `Token`: To store tokens associated with users
+* `Role`: To store roles
+* `SecurityHistory`: To store login,register,password_change events of user
