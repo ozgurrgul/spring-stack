@@ -1,31 +1,25 @@
 package demo.domain;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
-public class Token {
+@Data
+@NoArgsConstructor
+public class Token extends BaseDomain {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
-    public String tokenValue;
+    @Column(unique = true)
+    private String tokenValue;
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_USER"))
     private User user;
 
-    protected Token() {
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
     }
 
-    public Token(String tokenValue) {
-        this.tokenValue = tokenValue;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

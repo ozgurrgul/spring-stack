@@ -1,20 +1,20 @@
 package demo.domain;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
-public class Role {
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    public Long id;
+@Data
+@NoArgsConstructor
+public class Role extends BaseDomain {
 
     @Column(unique=true)
-    public String roleName; // ADMIN | USER | ...
+    private String roleName; // ADMIN | USER | ...
 
-    protected Role() {}
-
-    public Role(String roleName) {
-        this.roleName = roleName;
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
     }
 }

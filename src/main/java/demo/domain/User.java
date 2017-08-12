@@ -1,5 +1,7 @@
 package demo.domain;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,32 +12,24 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-public class User implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    public Long id;
+@Data
+@NoArgsConstructor
+public class User extends BaseDomain implements UserDetails {
 
     @Column(unique=true)
-    public String email;
-
-    public String password;
+    private String email;
+    private String name;
+    private String surname;
+    private String password;
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
-
-    protected User() {}
-
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles()
                 .stream()
-                .map(role -> new SimpleGrantedAuthority(role.roleName))
+                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
                 .collect(Collectors.toList());
     }
 
@@ -69,8 +63,9 @@ public class User implements UserDetails {
         return true;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
     }
 
 }
