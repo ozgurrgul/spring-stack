@@ -1,19 +1,18 @@
-package demo.auth;
+package demo.service;
 
 import demo.BadRequestException;
-import demo.user.Token;
-import demo.user.TokenRepository;
-import demo.user.User;
-import demo.user.UserRepository;
+import demo.dto.AuthLoginDTO;
+import demo.dto.AuthRegisterDTO;
+import demo.dto.AuthResponseDTO;
+import demo.domain.Token;
+import demo.repository.TokenRepository;
+import demo.domain.User;
+import demo.repository.UserRepository;
 import demo.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.validation.Valid;
 
 /**
  * Created by ozgur on 7/29/17.
@@ -28,7 +27,7 @@ public class AuthService {
     @Autowired
     TokenRepository tokenRepository;
 
-    public AuthResponse login(AuthLoginDTO authLoginDTO) {
+    public AuthResponseDTO login(AuthLoginDTO authLoginDTO) {
 
         User tmpUser = userRepository.getByEmailAndPassword(authLoginDTO.email, authLoginDTO.password);
 
@@ -43,11 +42,11 @@ public class AuthService {
         // persist token
         tokenRepository.save(token);
 
-        return new AuthResponse(tokenValue);
+        return new AuthResponseDTO(tokenValue);
     }
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public AuthResponse register(AuthRegisterDTO authRegisterModel) {
+    public AuthResponseDTO register(AuthRegisterDTO authRegisterModel) {
 
         if(isEmailExists(authRegisterModel)) {
             throw new BadRequestException("E-mail exists in database");
@@ -65,7 +64,7 @@ public class AuthService {
         // persist token
         tokenRepository.save(token);
 
-        return new AuthResponse(tokenValue);
+        return new AuthResponseDTO(tokenValue);
     }
 
     private boolean isEmailExists(AuthRegisterDTO authRegisterModel) {

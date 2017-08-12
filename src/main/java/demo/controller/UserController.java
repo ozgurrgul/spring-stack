@@ -1,5 +1,8 @@
-package demo.user;
+package demo.controller;
 
+import demo.domain.User;
+import demo.repository.UserRepository;
+import demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -9,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "user/list", method = RequestMethod.GET)
     public Iterable<User> list() {
-        return userRepository.findAll();
+        return userService.list();
     }
 
 }

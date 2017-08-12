@@ -1,7 +1,10 @@
 package demo.utils;
 
+import demo.domain.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.Errors;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.stream.Collectors;
 
 /**
@@ -9,13 +12,22 @@ import java.util.stream.Collectors;
  */
 public class ControllerUtils {
 
-    public static String getFormErrors(Errors errors) {
+    public static String getIp(HttpServletRequest request) {
 
-        return errors.getAllErrors()
-                .stream()
-                .map(x -> x.getDefaultMessage())
-                .collect(Collectors.joining(","));
+        String remoteAddr = "";
 
+        if (request != null) {
+            remoteAddr = request.getHeader("X-FORWARDED-FOR");
+            if (remoteAddr == null || "".equals(remoteAddr)) {
+                remoteAddr = request.getRemoteAddr();
+            }
+        }
+
+        return remoteAddr;
+    }
+
+    public static User getUser(Authentication authentication) {
+        return (User) authentication.getPrincipal();
     }
 
 }

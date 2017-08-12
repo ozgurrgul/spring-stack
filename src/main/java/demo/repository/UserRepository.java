@@ -1,9 +1,10 @@
-package demo.user;
+package demo.repository;
 
 /**
  * Created by ozgur on 7/5/17.
  */
 
+import demo.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Long> {

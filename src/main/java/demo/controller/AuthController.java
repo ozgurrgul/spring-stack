@@ -1,7 +1,10 @@
-package demo.auth;
+package demo.controller;
 
+import demo.dto.AuthLoginDTO;
+import demo.dto.AuthRegisterDTO;
+import demo.dto.AuthResponseDTO;
+import demo.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
@@ -16,12 +19,12 @@ public class AuthController {
     AuthService authService;
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public AuthResponse login(@Valid @RequestBody AuthLoginDTO authLoginDTO) {
+    public AuthResponseDTO login(@Valid @RequestBody AuthLoginDTO authLoginDTO) {
         return authService.login(authLoginDTO);
     }
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public AuthResponse register(@Valid @RequestBody AuthRegisterDTO authRegisterModel) {
+    public AuthResponseDTO register(@Valid @RequestBody AuthRegisterDTO authRegisterModel) {
         return authService.register(authRegisterModel);
     }
 
