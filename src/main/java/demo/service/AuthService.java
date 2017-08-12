@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.transaction.Transactional;
+
 /**
  * Created by ozgur on 7/29/17.
  */
@@ -27,6 +29,7 @@ public class AuthService {
     @Autowired
     TokenRepository tokenRepository;
 
+    @Transactional
     public AuthResponseDTO login(AuthLoginDTO authLoginDTO) {
 
         User tmpUser = userRepository.getByEmailAndPassword(authLoginDTO.email, authLoginDTO.password);
@@ -45,14 +48,16 @@ public class AuthService {
         return new AuthResponseDTO(tokenValue);
     }
 
-    @RequestMapping(value = "register", method = RequestMethod.POST)
-    public AuthResponseDTO register(AuthRegisterDTO authRegisterModel) {
+    @Transactional
+    public AuthResponseDTO register(AuthRegisterDTO authRegisterDTO) {
 
-        if(isEmailExists(authRegisterModel)) {
+        if(isEmailExists(authRegisterDTO)) {
             throw new BadRequestException("E-mail exists in database");
         }
 
-        User tmpUser = new User(authRegisterModel.email, authRegisterModel.password);
+        User tmpUser = new User();
+        tmpUser.setEmail(authRegisterDTO.email);
+        tmpUser.setPassword(authRegisterDTO.password);
 
         // persist user
         userRepository.save(tmpUser);
