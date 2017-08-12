@@ -7,7 +7,7 @@ package demo.repository;
 import demo.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, String> {
 
     User getByEmailAndPassword(String email, String password);
     User getByEmail(String email);
