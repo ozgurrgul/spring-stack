@@ -19,11 +19,9 @@ public abstract class BaseDomain {
     protected String id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
 
     @PrePersist
