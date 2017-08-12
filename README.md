@@ -16,3 +16,8 @@ Then you can test `/user/list` route which protected with 'ADMIN' role.
 * `Token`: To store tokens associated with users
 * `Role`: To store roles
 * `SecurityHistory`: To store login,register,password_change events of user
+
+# Intellij Usage
+* Go to File | Settings | Build, Execution, Deployment 
+* Enable annotation processing
+* Done
